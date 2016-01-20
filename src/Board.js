@@ -114,12 +114,35 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // takes in a column index
+      // variable that has an array of all rows (allRows)
+      var allRows = this.rows();
+      // var piecesFound to collect amount of found pieces
+      var piecesFound = 0;
+      // for loop that loops through row array
+      for (var i = 0; i < allRows.length; i++){
+        if (allRows[i][colIndex] === 1){
+          piecesFound++;
+        }
+      }
+      if (piecesFound > 1){
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // variable to hold columns: this.rows().length
+      var columns = this.rows().length;
+      // for loop, over columns length, individual column is i
+      for(var i = 0; i < columns; i++){
+        if(this.hasColConflictAt(i)){
+          return true;
+        }
+      }
+      return false;
     },
 
 
