@@ -155,11 +155,16 @@
       var startColumn = majorDiagonalColumnIndexAtFirstRow;
 
       // loop to build a diagonal
-      var row = row || 0;
+      var row = 0;
       for(var i = startColumn; i < length; i++){ 
-        diagonal.push(this.rows()[row][i]);
-        console.log(this.rows()[row][i], row, i);
-        row++;
+        if (this.rows()[row][i] !== undefined){
+          diagonal.push(this.rows()[row][i]);
+          console.log(this.rows()[row][i], row, i);
+        }
+
+        if(row < length-1){
+          row++;
+        }
       }
 
       console.log(diagonal);
@@ -183,7 +188,8 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var length = this.rows().length;
-      for(var column = 0; column < length; column++){ 
+      for(var column = -length; column < length; column++){ 
+        console.log(column);
         if ( this.hasMajorDiagonalConflictAt(column) ){
           return true;
         }
