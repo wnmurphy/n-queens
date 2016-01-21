@@ -159,7 +159,6 @@
       for(var i = startColumn; i < length; i++){ 
         if (this.rows()[row][i] !== undefined){
           diagonal.push(this.rows()[row][i]);
-          console.log(this.rows()[row][i], row, i);
         }
 
         if(row < length-1){
@@ -167,14 +166,12 @@
         }
       }
 
-      console.log(diagonal);
 
       // loop to check diagonal for conflict
       var piecesFound = 0;
       for(var j = 0; j < diagonal.length; j++){
         if(diagonal[j] === 1){
           piecesFound++;
-          console.log('piecesFound', piecesFound, "diagonal[i]", diagonal[i]);
 
         }
       }
@@ -186,7 +183,6 @@
     hasAnyMajorDiagonalConflicts: function() {
       var length = this.rows().length;
       for(var column = -length; column < length; column++){ 
-        console.log(column);
         if ( this.hasMajorDiagonalConflictAt(column) ){
           return true;
         }
@@ -212,7 +208,6 @@
       for(var i = startColumn; i > startColumn-length; i--){ 
         if (this.rows()[row][i] !== undefined){
           diagonal.push(this.rows()[row][i]);
-          console.log(this.rows()[row][i], row, i);
         }
 
         if(row < length-1){
@@ -220,14 +215,12 @@
         }
       }
 
-      console.log(diagonal);
 
       //checking diagonal for conflicts
       var piecesFound = 0;
       for(var j = 0; j < diagonal.length; j++){
         if(diagonal[j] === 1){
           piecesFound++;
-          console.log('piecesFound', piecesFound, "diagonal[i]", diagonal[i]);
 
         }
       }
@@ -241,7 +234,6 @@
 
       var length = this.rows().length;
       for(var column = length*2; column > -1; column--){ 
-        console.log(column);
         if ( this.hasMinorDiagonalConflictAt(column) ){
           return true;
         }

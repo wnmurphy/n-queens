@@ -12,19 +12,64 @@
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
-
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution = 0;
+  var board = new Board({n: n});
+
+  // loop through board.rows()[row][column]
+  for(var row = 0; row < n; row++){
+    for(var column = 0; column < n; column++){
+      board.togglePiece(row, column); //add rook
+      console.log("the board", board);
+      if(board.hasAnyRooksConflicts()){
+        board.togglePiece(row, column); //remove rook
+      }
+    }
+  }
+  var solution = board.rows();
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution;
+
+  return solution;    
 };
 
 
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutions = [];
+  var solutionCount = solution.length; 
+  var board = new Board({n: n});
+
+  // Define recursive function that places subsequent rooks on each square and checks for conflict on existing board.
+  var recursivePlaceRook = function(row, column){
+    var rookCount = 0;
+    
+    for (var row = row; row < n; row++){
+      for (var column = column; column < n; column++){
+        
+        board.togglePiece(row, column); //add rook
+
+        if(board.hasAnyRooksConflicts()){ 
+          board.togglePiece(row, column); //remove rook if conflict
+        } else { 
+          rookCount++; 
+          // recursivePlaceRook(??);        //since only 1 rook or queen/row, could try incrementing row after placement
+        }
+      }
+    }
+    // Base case. Push solution when n rooks are placed and stop.
+    if (rookCount === n){
+      solutions.push(board.rows());
+    }
+  }
+  
+  // start recursivePlaceRook on every square of the board:
+  for (var row = row; row < n; row++){
+    for (var column = column; column < n; column++){
+      recursivePlaceRook(rows, column);
+    }
+  }
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
