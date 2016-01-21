@@ -34,46 +34,44 @@ window.findNRooksSolution = function(n) {
 };
 
 
-
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutions = [];
-  var solutionCount = solution.length; 
+  var solutionCount = 0; 
   var board = new Board({n: n});
 
-  // Define recursive function that places subsequent rooks on each square and checks for conflict on existing board.
-  var recursivePlaceRook = function(row, column){
-    var rookCount = 0;
+  var recurseRooks = function (row){
     
-    for (var row = row; row < n; row++){
-      for (var column = column; column < n; column++){
-        
-        board.togglePiece(row, column); //add rook
+    // base case: we've finished all the rows for this branch
+    if( row === n){
+      // add a solution
+      solutionCount++;
+      // stop
+      return;
+    }
 
-        if(board.hasAnyRooksConflicts()){ 
-          board.togglePiece(row, column); //remove rook if conflict
-        } else { 
-          rookCount++; 
-          // recursivePlaceRook(??);        //since only 1 rook or queen/row, could try incrementing row after placement
+    // iterate over columns for the current row 
+    for (var column = 0; column < n; column++){
+        
+        //add rook
+        board.togglePiece(row, column);
+
+        // If that rook generates no conflicts, recurse further
+        if(!board.hasAnyRooksConflicts() ){ 
+          recurseRooks(row+1);
         }
-      }
-    }
-    // Base case. Push solution when n rooks are placed and stop.
-    if (rookCount === n){
-      solutions.push(board.rows());
+
+        // remove rook to reset board for other branches
+        board.togglePiece(row, column);
     }
   }
-  
-  // start recursivePlaceRook on every square of the board:
-  for (var row = row; row < n; row++){
-    for (var column = column; column < n; column++){
-      recursivePlaceRook(rows, column);
-    }
-  }
+  // begin recursion on first row.
+  recurseRooks(0);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
+
+
 
 
 
