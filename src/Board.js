@@ -140,25 +140,63 @@
       for(var i = 0; i < columns; i++){
         if(this.hasColConflictAt(i)){
           return true;
-        }
+        } 
       }
       return false;
     },
-
-
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var diagonal = [];
+      var length = this.rows().length;
+      var startColumn = majorDiagonalColumnIndexAtFirstRow;
+
+      // loop to build a diagonal
+      var row = row || 0;
+      for(var i = startColumn; i < length; i++){ 
+        diagonal.push(this.rows()[row][i]);
+        console.log(this.rows()[row][i], row, i);
+        row++;
+      }
+
+      console.log(diagonal);
+
+      // loop to check diagonal for conflict
+      var piecesFound = 0;
+      for(var j = 0; j < diagonal.length; j++){
+        if(diagonal[j] === 1){
+          piecesFound++;
+          console.log('piecesFound', piecesFound, "diagonal[i]", diagonal[i]);
+
+        }
+      }
+      if (piecesFound > 1){
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var length = this.rows().length;
+      for(var column = 0; column < length; column++){ 
+        if ( this.hasMajorDiagonalConflictAt(column) ){
+          return true;
+        }
+      }
+      return false;
     },
+
+     // this.rows()[i][0] 
+
+     //    [col1, col2, col3],
+     //    [col1, col2, col3],
+     //    [col1, col2, col3],
+     //  ];
 
 
 
@@ -187,5 +225,6 @@
       });
     });
   };
+
 
 }());
