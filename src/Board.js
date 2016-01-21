@@ -178,11 +178,8 @@
 
         }
       }
-      if (piecesFound > 1){
-        return true;
-      } else {
-        return false;
-      }
+      return piecesFound > 1;
+
     },
 
     // test if any major diagonals on this board contain conflicts
@@ -197,27 +194,62 @@
       return false;
     },
 
-     // this.rows()[i][0] 
-
-     //    [col1, col2, col3],
-     //    [col1, col2, col3],
-     //    [col1, col2, col3],
-     //  ];
-
-
-
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var diagonal = [];
+      var length = this.rows().length;
+      var startColumn = minorDiagonalColumnIndexAtFirstRow;
+
+      // build a minor diagonal
+        // start at top-right
+        // move left (column--), move down (row--)
+
+      var row = 0;
+
+      for(var i = startColumn; i > startColumn-length; i--){ 
+        if (this.rows()[row][i] !== undefined){
+          diagonal.push(this.rows()[row][i]);
+          console.log(this.rows()[row][i], row, i);
+        }
+
+        if(row < length-1){
+          row++;
+        }
+      }
+
+      console.log(diagonal);
+
+      //checking diagonal for conflicts
+      var piecesFound = 0;
+      for(var j = 0; j < diagonal.length; j++){
+        if(diagonal[j] === 1){
+          piecesFound++;
+          console.log('piecesFound', piecesFound, "diagonal[i]", diagonal[i]);
+
+        }
+      }
+      return piecesFound > 1;
     },
+
+
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+
+      var length = this.rows().length;
+      for(var column = length*2; column > -1; column--){ 
+        console.log(column);
+        if ( this.hasMinorDiagonalConflictAt(column) ){
+          return true;
+        }
+      }
+      return false; 
     }
+
+    // instead of negative length, start at length*2 and decrement
 
     /*--------------------  End of Helper Functions  ---------------------*/
 
