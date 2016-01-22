@@ -20,7 +20,7 @@ window.findNRooksSolution = function(n) {
   for(var row = 0; row < n; row++){
     for(var column = 0; column < n; column++){
       board.togglePiece(row, column); //add rook
-      console.log("the board", board);
+
       if(board.hasAnyRooksConflicts()){
         board.togglePiece(row, column); //remove rook
       }
@@ -72,22 +72,71 @@ window.countNRooksSolutions = function(n) {
 };
 
 
-
-
-
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solutionCount = 0; 
+  var board = new Board({n: n});
 
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  var recurseQueens = function (row){
+    
+    // base case: we've finished all the rows for this branch
+    if( row === n){
+      // add a solution
+      solutionCount++;
+      // stop
+      return;
+    }
+
+    // iterate over columns for the current row 
+    for (var column = 0; column < n; column++){
+        //add queen
+        board.togglePiece(row, column);
+        // If that queen generates no conflicts, recurse further
+        if( !board.hasAnyQueensConflicts() ){ 
+          recurseQueens(row+1);
+        }
+        // remove queen to reset board for other branches
+        board.togglePiece(row, column);
+    }
+  }
+  // begin recursion on first row.
+  recurseQueens(0);
+
+  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  return solutionCount;
 };
 
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0; 
+  var board = new Board({n: n});
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  var recurseQueens = function (row){
+    
+    // base case: we've finished all the rows for this branch
+    if( row === n){
+      // add a solution
+      solutionCount++;
+      // stop
+      return;
+    }
+
+    // iterate over columns for the current row 
+    for (var column = 0; column < n; column++){
+        //add queen
+        board.togglePiece(row, column);
+        // If that queen generates no conflicts, recurse further
+        if( !board.hasAnyQueensConflicts() ){ 
+          recurseQueens(row+1);
+        }
+        // remove queen to reset board for other branches
+        board.togglePiece(row, column);
+    }
+  }
+  // begin recursion on first row.
+  recurseQueens(0);
+
+  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };

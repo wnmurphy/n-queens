@@ -150,33 +150,27 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      var diagonal = [];
-      var length = this.rows().length;
       var startColumn = majorDiagonalColumnIndexAtFirstRow;
+      var rows = this.rows();
+      var counter = 0;
 
-      // loop to build a diagonal
-      var row = 0;
-      for(var i = startColumn; i < length; i++){ 
-        if (this.rows()[row][i] !== undefined){
-          diagonal.push(this.rows()[row][i]);
+      for (var i = 0; i < rows.length; i++){
+        if (startColumn >= rows.length){
+          break;
         }
 
-        if(row < length-1){
-          row++;
+        if (rows[i][startColumn] === 1){
+          counter++;
         }
+
+        startColumn++;
       }
 
-
-      // loop to check diagonal for conflict
-      var piecesFound = 0;
-      for(var j = 0; j < diagonal.length; j++){
-        if(diagonal[j] === 1){
-          piecesFound++;
-
-        }
+      if (counter > 1) { 
+        return true 
+      } else {
+        return false;
       }
-      return piecesFound > 1;
-
     },
 
     // test if any major diagonals on this board contain conflicts
